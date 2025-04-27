@@ -1,0 +1,57 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+    id "com.google.gms.google-services"
+}
+
+android {
+    namespace "com.example.shoplite_app"  // Cập nhật theo google-services.json mới
+    compileSdk 34  // Cập nhật SDK mới nhất
+
+    defaultConfig {
+        applicationId "com.example.shoplite_app"  // Cập nhật theo google-services.json mới
+        minSdk 23  // Đảm bảo Flutter hỗ trợ
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true  // Hỗ trợ nhiều thư viện
+
+        // Hỗ trợ WebView (quan trọng với VNPay)
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.debug
+            minifyEnabled false  // Tránh lỗi WebView
+            shrinkResources false  // Không loại bỏ tài nguyên khi build
+        }
+    }
+
+    // Bổ sung hỗ trợ ViewBinding & DataBinding
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+flutter {
+    source "../.."
+}
+
+dependencies {
+    implementation 'androidx.multidex:multidex:2.0.1'  // Hỗ trợ đa dex
+    implementation 'androidx.appcompat:appcompat:1.6.1'  // Hỗ trợ AndroidX
+    implementation 'androidx.webkit:webkit:1.7.0'  // Hỗ trợ WebView (VNPay)
+    implementation platform('com.google.firebase:firebase-bom:33.10.0')
+}
